@@ -30,11 +30,42 @@ function App() {
     }));
   };
 
+  const handleSubmit = (e) => {
+    // blocca il comportamento standard del form
+    e.preventDefault();
+    // attiva il loader
+    setLoading(true);
+    // reset alert prima dell'invio
+    setAlert(null);
+
+    //Effettuo chiamata POST con axios
+    axios
+      .post(apiUrl, formData)
+      .then((resp) => {
+        console.log("Risposta dal server:", resp.data);
+        setAlert({ type: "success", message: "Post inviato con successo!!" });
+        setFormData({ author: "", title: "", body: "", public: false });
+      })
+      .catch((error) => {
+        console.error("Errore durante POST:", error);
+        setAlert({
+          type: "error",
+          message: "Errore durante l'invio. Controlla la console.",
+        });
+      })
+      .finally(() => {
+        setLoading(false); // disattiva il loader sempre
+      });
+  };
+
   return (
     <div className="container">
       <div className="row">
         <div className="col">
-          <form>
+          {/* ALERT: viene mostrato solo se alert non è null */}
+          {alert && <div role="alert">{alert.message}</div>}
+
+          <form onSubmit={handleSubmit}>
             <label>
               Autore
               <input
@@ -57,7 +88,7 @@ function App() {
             </label>
             <label>
               Testo del post
-              <input
+              <textarea
                 name="body"
                 value={formData.body}
                 onChange={handleChange}
