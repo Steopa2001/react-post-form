@@ -53,14 +53,12 @@ function App() {
           message: "Errore durante l'invio. Controlla la console.",
         });
       })
-      .finally(() => {
-        setLoading(false); // disattiva il loader sempre
-      });
+    
   };
 
   return (
     <div className="container">
-      <div className="row">
+      <div className="row mt-5">
         <div className="col">
           {/* ALERT: viene mostrato solo se alert non è null */}
           {alert && <div role="alert">{alert.message}</div>}
