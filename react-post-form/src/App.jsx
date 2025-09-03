@@ -22,6 +22,33 @@ function App() {
   // Stato per i messaggi di feedback (success / error)
   const [alert, setAlert] = useState(null);
 
+// funzione generica per aggiornare i campi del form (gestisce anche checkbox)
+  const handleChange = (e) => {
+    const {name, value, type, checked} = e.target;
+    setFormData((prev) => ({
+      ...prev, [name]: type === 'checkbox' ? checked : value,
+    }))
+  }
+
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-12">
+          <form>
+            <label>
+              Autore
+              <input
+              name='author'
+              value={formData.author}
+              onChange={handleChange}
+              />
+            </label>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
+
 }
 
 export default App;
